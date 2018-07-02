@@ -10,14 +10,27 @@ var io = socketIO(server);
 
 app.use(express.static(publicPath));
 
-io.on('connection',(socket)=>{
+io.on('connection', (socket) => {
     console.log('New user connected');
-    
-    socket.on('disconnect',()=>{
+
+    socket.emit('newMessage', {
+        from: 'PPT',
+        text: 'hi',
+        createdAt: 123
+    });
+
+    socket.on('createMessage', (message) => {
+        console.log('createMessage', message);
+
+    });
+
+    socket.on('disconnect', () => {
         console.log('Disconnected from server');
     });
-    
-})
+
+
+
+});
 
 server.listen(3000, () => {
     console.log('Server is listening port 3000');
